@@ -1,0 +1,42 @@
+{
+  "name": "okapi",
+  "version": "0.7.0",
+  "description": "Various image generation stuff made for IdleRPG",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kenvyra/okapi"
+  },
+  "keywords": [
+    "node-canvas",
+    "idlerpg",
+    "image-generation",
+    "express"
+  ],
+  "author": "Diniboy1123",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Kenvyra/okapi/issues"
+  },
+  "homepage": "https://github.com/Kenvyra/okapi#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "canvas": "^2.5.0",
+    "express": "^4.16.4",
+    "express-list-endpoints": "^4.0.1",
+    "method-override": "^3.0.0",
+    "morgan": "^1.9.1",
+    "node-fetch": "^2.5.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-node": "^9.0.1",
+    "eslint-plugin-promise": "^4.1.1",
+    "eslint-plugin-standard": "^4.0.0"
+  }
+}
