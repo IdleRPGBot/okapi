@@ -19,7 +19,7 @@ const classes = {
   paragon: loadImageFromDisk('./assets/images/casts/paragon.png'),
   ranger: loadImageFromDisk('./assets/images/casts/ranger.png'),
   warrior: loadImageFromDisk('./assets/images/casts/warrior.png'),
-  elementalist: loadImageFromDisk('./assets/images/casts/elementalist.png')
+  mage: loadImageFromDisk('./assets/images/casts/elementalist.png')
 }
 
 const requiredParams = [ 'name',
@@ -36,7 +36,7 @@ const requiredParams = [ 'name',
   'shieldName',
   'married',
   'guild',
-  'cast',
+  'class',
   'icon',
   'mission' ]
 
@@ -71,11 +71,13 @@ router.post('/', async (req, res) => {
   ctx.fillText(req.body.shieldName, 81, 244, 270)
   ctx.fillText(req.body.married, 589, 371, 170)
   ctx.fillText(req.body.guild, 589, 464, 170)
-  ctx.fillText(req.body.cast, 127, 540, 650)
+  ctx.fillText(req.body.class, 127, 540, 650)
   ctx.fillText(req.body.mission, 264, 590.8, 510)
   ctx.fillStyle = '#000000'
   ctx.fillText(req.body.level, 744, 56, 48)
-  ctx.drawImage(classes[req.body.icon], 723, 506, 50, 50)
+  if (req.body.icon != "none") {
+    ctx.drawImage(classes[req.body.icon], 723, 506, 50, 50)
+  }
   const buffer = canvas.toBuffer('image/png')
   res.header('Content-Type', 'image/png').status(200).send(buffer)
 })
