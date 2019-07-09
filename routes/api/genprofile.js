@@ -64,11 +64,11 @@ router.post('/', async (req, res) => {
   ctx.fillText(req.body.ecoRank, 265, 487, 110)
   ctx.fillText(req.body.rank, 425, 487, 140)
   ctx.font = '28px CaviarDreams, OpenSansEmoji'
-  ctx.fillText(req.body.swordDamage, 495, 158, 270)
-  ctx.fillText(req.body.shieldDamage, 495, 249, 270)
+  ctx.fillText(req.body.swordDamage, 611, 158, 147)
+  ctx.fillText(req.body.shieldDamage, 611, 249, 147)
   ctx.font = '24px CaviarDreams, OpenSansEmoji'
-  ctx.fillText(req.body.swordName, 81, 158, 270)
-  ctx.fillText(req.body.shieldName, 81, 244, 270)
+  ctx.fillText(req.body.swordName, 81, 158, 390)
+  ctx.fillText(req.body.shieldName, 81, 244, 390)
   ctx.fillText(req.body.married, 589, 371, 170)
   ctx.fillText(req.body.guild, 589, 464, 170)
   ctx.fillText(req.body.class, 127, 540, 650)
