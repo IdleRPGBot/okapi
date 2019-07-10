@@ -19,7 +19,9 @@ const classes = {
   paragon: loadImageFromDisk('./assets/images/casts/paragon.png'),
   ranger: loadImageFromDisk('./assets/images/casts/ranger.png'),
   warrior: loadImageFromDisk('./assets/images/casts/warrior.png'),
-  mage: loadImageFromDisk('./assets/images/casts/mage.png')
+  mage: loadImageFromDisk('./assets/images/casts/mage.png'),
+  raider: loadImageFromDisk('./assets/images/casts/raider.png'),
+  ritualist: loadImageFromDisk('./assets/images/casts/ritualist.png')
 }
 
 const requiredParams = [ 'name',
