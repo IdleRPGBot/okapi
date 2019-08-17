@@ -45,6 +45,27 @@ const requiredParams = [
   "mission"
 ];
 
+const requiredParamsBeta = [
+  "name",
+  "image",
+  "color",
+  "money",
+  "pvpWins",
+  "ecoRank",
+  "rank",
+  "level",
+  "swordDamage",
+  "shieldDamage",
+  "swordName",
+  "shieldName",
+  "married",
+  "guild",
+  "classes",
+  "icons",
+  "mission"
+];
+
+
 router.post("/", async (req, res) => {
   requiredParams.forEach(element => {
     if (!(element in req.body)) {
@@ -99,7 +120,7 @@ router.post("/", async (req, res) => {
 });
 
 router.post("/beta", async (req, res) => {
-  requiredParams.forEach(element => {
+  requiredParamsBeta.forEach(element => {
     if (!(element in req.body)) {
       res
         .status(400)
