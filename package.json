@@ -25,6 +25,7 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "canvas": "^2.5.0",
+    "eslint-utils": "^1.4.2",
     "express": "^4.16.4",
     "express-list-endpoints": "^4.0.1",
     "method-override": "^3.0.0",
