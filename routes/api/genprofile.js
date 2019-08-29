@@ -40,31 +40,10 @@ const requiredParams = [
   "shieldName",
   "married",
   "guild",
-  "class",
-  "icon",
-  "mission"
-];
-
-const requiredParamsBeta = [
-  "name",
-  "image",
-  "color",
-  "money",
-  "pvpWins",
-  "ecoRank",
-  "rank",
-  "level",
-  "swordDamage",
-  "shieldDamage",
-  "swordName",
-  "shieldName",
-  "married",
-  "guild",
   "classes",
   "icons",
   "mission"
 ];
-
 
 router.post("/", async (req, res) => {
   requiredParams.forEach(element => {
@@ -91,26 +70,29 @@ router.post("/", async (req, res) => {
       ); /* TODO: decide to resize all profiles or not */
       break;
   }
-  ctx.font = "34px CaviarDreams, OpenSansEmoji";
+  ctx.font = "34px TravMedium, CaviarDreams, OpenSansEmoji";
   ctx.fillText(req.body.name, 73, 51);
   ctx.fillText(req.body.money, 98, 352, 200);
   ctx.fillText(req.body.pvpWins, 98, 424);
   ctx.fillText(req.body.ecoRank, 265, 487, 110);
   ctx.fillText(req.body.rank, 425, 487, 140);
-  ctx.font = "28px CaviarDreams, OpenSansEmoji";
+  ctx.font = "28px TravMedium, CaviarDreams, OpenSansEmoji";
   ctx.fillText(req.body.swordDamage, 611, 158, 147);
   ctx.fillText(req.body.shieldDamage, 611, 249, 147);
-  ctx.font = "24px CaviarDreams, OpenSansEmoji";
+  ctx.font = "24px TravMedium, CaviarDreams, OpenSansEmoji";
   ctx.fillText(req.body.swordName, 81, 158, 390);
   ctx.fillText(req.body.shieldName, 81, 244, 390);
   ctx.fillText(req.body.married, 589, 371, 170);
   ctx.fillText(req.body.guild, 589, 464, 170);
-  ctx.fillText(req.body.class, 127, 540, 650);
+  ctx.fillText(req.body.classes.join("/"), 127, 540, 650);
   ctx.fillText(req.body.mission, 264, 590.8, 510);
   ctx.fillStyle = "#000000";
   ctx.fillText(req.body.level, 744, 56, 48);
-  if (req.body.icon != "none") {
-    ctx.drawImage(classes[req.body.icon], 723, 506, 50, 50);
+  if (req.body.icons[0] != "none") {
+    ctx.drawImage(classes[req.body.icons[0]], 660, 506, 50, 50);
+  }
+  if (req.body.icons[1] != "none") {
+    ctx.drawImage(classes[req.body.icons[1]], 723, 506, 50, 50);
   }
   const buffer = canvas.toBuffer("image/png");
   res
@@ -118,9 +100,8 @@ router.post("/", async (req, res) => {
     .status(200)
     .send(buffer);
 });
-
 router.post("/beta", async (req, res) => {
-  requiredParamsBeta.forEach(element => {
+  requiredParams.forEach(element => {
     if (!(element in req.body)) {
       res
         .status(400)
