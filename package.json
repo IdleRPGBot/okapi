@@ -28,6 +28,7 @@
     "eslint-utils": "^1.4.2",
     "express": "^4.16.4",
     "express-list-endpoints": "^4.0.1",
+    "https-proxy-agent": "^2.2.2",
     "method-override": "^3.0.0",
     "morgan": "^1.9.1",
     "node-fetch": "^2.5.0"

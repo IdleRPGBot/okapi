@@ -1,45 +1,45 @@
-var express = require("express");
-var bodyParser = require("body-parser");
-var app = express();
-var port = process.env.PORT || 3000;
+var express = require('express')
+var bodyParser = require('body-parser')
+var app = express()
+var port = process.env.PORT || 3000
 
 /* routines */
 app.use(
-  require("morgan")("dev", {
-    skip: function(req, res) {
+  require('morgan')('dev', {
+    skip: function (req, res) {
       return (
         res.statusCode < 400
-      ); /* || [400, 404, 401].indexOf(req.statusCode) */
+      ) /* || [400, 404, 401].indexOf(req.statusCode) */
     },
     stream: process.stdout
   })
-);
+)
 app.use(
   bodyParser.urlencoded({
     extended: false
   })
-);
-app.use(bodyParser.json());
-app.use(require("method-override")());
+)
+app.use(bodyParser.json())
+app.use(require('method-override')())
 
-app.use(require("./routes"));
+app.use(require('./routes'))
 
 /* error handlers */
 
-app.use(function(req, res) {
+app.use(function (req, res) {
   res.status(404).send({
-    err: req.originalUrl + " not found"
-  });
-});
+    err: req.originalUrl + ' not found'
+  })
+})
 
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
+app.use(function (err, req, res, next) {
+  res.status(err.status || 500)
   res.status(500).json({
     err: err.message
-  });
-  throw err;
-});
+  })
+  throw err
+})
 
-app.listen(port);
+app.listen(port)
 
-console.log(`okapi RESTful API server started on: ${port}`);
+console.log(`okapi RESTful API server started on: ${port}`)
