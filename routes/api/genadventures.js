@@ -33,7 +33,7 @@ router.post("/", async (req, res) => {
     ctx.font = "16px TravMedium, CaviarDreams, OpenSansEmoji";
     ctx.fillText(`${req.body.percentages[0]}% to`, 314, 168, 100);
     ctx.fillText(`${req.body.percentages[1]}%`, 314, 187, 100);
-    const buffer = canvas.toBuffer("image/png");
+    const buffer = canvas.toDataURL();
     out.push(buffer);
   });
   res.status(200).send(out);
