@@ -26,7 +26,7 @@ router.post("/", async (req, res) => {
       .send({ err: `percentages is a required argument and is missing` });
   }
   var out = [];
-  for (var image in images) {
+  images.forEach(function(image) {
     const canvas = createCanvas(425, 220, "png");
     const ctx = canvas.getContext("2d");
     ctx.drawImage(image, 0, 0);
@@ -35,7 +35,7 @@ router.post("/", async (req, res) => {
     ctx.fillText(`${req.body.percentages[1]}%`, 314, 187, 100);
     const buffer = canvas.toBuffer("image/png");
     out.push(buffer);
-  }
+  });
   res.status(200).send(out);
 });
 
