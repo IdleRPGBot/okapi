@@ -24,12 +24,10 @@ router.post('/', async (req, res) => {
       .send({ err: `percentages is a required argument and is missing` })
   }
   var out = []
-  console.log(req.body.percentages)
   images.forEach(function (image, index) {
     const canvas = createCanvas(425, 220, 'png')
     const ctx = canvas.getContext('2d')
     const percents = req.body.percentages[index]
-    console.log(percents)
     ctx.drawImage(image, 0, 0)
     ctx.font = '20px TravMedium, CaviarDreams, OpenSansEmoji'
     ctx.fillText(`${percents[0]}% to`, 314, 185, 100)
