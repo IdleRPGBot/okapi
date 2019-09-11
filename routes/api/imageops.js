@@ -5,21 +5,19 @@ const sharp = require("sharp");
 const download = require("./../../utils/download.js");
 
 router.post("/pixel", async (req, res) => {
-  if (!("image" in req.body) || !("size" in req.body)) {
+  if (!("image" in req.body)) {
     res
       .status(400)
       .send({ err: `image is a required argument and is missing` });
   }
-  sharp(await download.getData(req.body.image))
-    .resize({ width: req.body.size, height: req.body.size })
-    .png()
-    .toBuffer()
-    .then(function(buffer) {
-      res
-        .header("Content-Type", "image/png")
-        .status(200)
-        .send(buffer);
-    });
+  var buffer = await sharp(await download.getData(req.body.image))
+    .resize({ width: 1024, height: 1024, kernel: sharp.kernel.nearest })
+    .toFormat("png")
+    .toBuffer();
+  res
+    .header("Content-Type", "image/png")
+    .status(200)
+    .send(buffer);
 });
 
 router.post("/invert", async (req, res) => {
@@ -49,18 +47,16 @@ router.post("/edges", async (req, res) => {
       .status(400)
       .send({ err: `image is a required argument and is missing` });
   }
-  const canvas = createCanvas();
-  const ctx = canvas.getContext("2d");
-  const image = new Image();
-  image.src = await download.getData(req.body.image);
-  ctx.drawImage(image, 0, 0);
-  canvas.width = image.width;
-  canvas.height = image.height;
-  var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-  var sobelData = Sobel(imageData);
-  var sobelImageData = sobelData.toImageData();
-  ctx.putImageData(sobelImageData, 0, 0);
-  const buffer = canvas.toBuffer("image/png");
+  var buffer = await sharp(await download.getData(req.body.image))
+    .greyscale()
+    .convolve({
+      width: 3,
+      height: 3,
+      kernel: [-1, 0, 1, -2, 0, 2, -1, 0, 1],
+      scale: 1
+    })
+    .toFormat("png")
+    .toBuffer();
   res
     .header("Content-Type", "image/png")
     .status(200)
