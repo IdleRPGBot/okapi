@@ -1,6 +1,5 @@
 var router = require("express").Router();
 const { createCanvas, Image } = require("canvas");
-const { Sobel } = require("sobel");
 const sharp = require("sharp");
 const download = require("./../../utils/download.js");
 
@@ -24,17 +23,10 @@ router.post("/invert", async (req, res) => {
   if (!("image" in req.body)) {
     res.status(400).send({ err: `image is a required argument and missing` });
   }
-  const canvas = createCanvas();
-  const ctx = canvas.getContext("2d");
-  const img = new Image();
-  img.src = await download.getData(req.body.image);
-  ctx.drawImage(img, 0, 0);
-  canvas.width = img.width;
-  canvas.height = img.height;
-  ctx.globalCompositeOperation = "difference";
-  ctx.fillStyle = "white";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  const buffer = canvas.toBuffer("image/png");
+  var buffer = await sharp(await download.getData(req.body.image))
+    .negate()
+    .toFormat("png")
+    .toBuffer();
   res
     .header("Content-Type", "image/png")
     .status(200)
@@ -48,14 +40,11 @@ router.post("/edges", async (req, res) => {
       .send({ err: `image is a required argument and is missing` });
   }
   var buffer = await sharp(await download.getData(req.body.image))
-    .greyscale()
     .convolve({
       width: 3,
       height: 3,
-      kernel: [-1, 0, 1, -2, 0, 2, -1, 0, 1],
-      scale: 1
+      kernel: [-1, 0, 1, -2, 0, 2, -1, 0, 1]
     })
-    .toFormat("png")
     .toBuffer();
   res
     .header("Content-Type", "image/png")
@@ -73,9 +62,9 @@ router.post("/oil", async (req, res) => {
     ctx = canvas.getContext("2d"),
     img = new Image();
   img.src = await download.getData(req.body.image);
-  ctx.drawImage(img, 0, 0);
   canvas.width = img.width;
   canvas.height = img.height;
+  ctx.drawImage(img, 0, 0);
   var radius = 4,
     intensity = 55,
     width = canvas.width,
@@ -154,7 +143,6 @@ router.post("/oil", async (req, res) => {
     }
   }
 
-  // change this to ctx to instead put the data on the original canvas
   ctx.putImageData(destImageData, 0, 0);
   const buffer = canvas.toBuffer("image/png");
   res
