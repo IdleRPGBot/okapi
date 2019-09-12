@@ -9,28 +9,22 @@ router.post("/pixel", async (req, res) => {
       .status(400)
       .send({ err: `image is a required argument and is missing` });
   }
-  var buffer = await sharp(await download.getData(req.body.image))
+  res.type("image/png");
+  var transformer = sharp()
     .resize({ width: 1024, height: 1024, kernel: sharp.kernel.nearest })
-    .toFormat("png")
-    .toBuffer();
-  res
-    .header("Content-Type", "image/png")
-    .status(200)
-    .send(buffer);
+    .png();
+  (await download.getDataPipe(req.body.image)).pipe(transformer).pipe(res);
 });
 
 router.post("/invert", async (req, res) => {
   if (!("image" in req.body)) {
     res.status(400).send({ err: `image is a required argument and missing` });
   }
-  var buffer = await sharp(await download.getData(req.body.image))
+  res.type("image/png");
+  var transformer = sharp()
     .negate()
-    .toFormat("png")
-    .toBuffer();
-  res
-    .header("Content-Type", "image/png")
-    .status(200)
-    .send(buffer);
+    .png();
+  (await download.getDataPipe(req.body.image)).pipe(transformer).pipe(res);
 });
 
 router.post("/edges", async (req, res) => {
@@ -39,17 +33,15 @@ router.post("/edges", async (req, res) => {
       .status(400)
       .send({ err: `image is a required argument and is missing` });
   }
-  var buffer = await sharp(await download.getData(req.body.image))
+  res.type("image/png");
+  var transformer = sharp()
     .convolve({
       width: 3,
       height: 3,
       kernel: [-1, 0, 1, -2, 0, 2, -1, 0, 1]
     })
-    .toBuffer();
-  res
-    .header("Content-Type", "image/png")
-    .status(200)
-    .send(buffer);
+    .png();
+  (await download.getDataPipe(req.body.image)).pipe(transformer).pipe(res);
 });
 
 router.post("/oil", async (req, res) => {

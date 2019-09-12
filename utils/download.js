@@ -3,7 +3,7 @@ const HttpsProxyAgent = require("https-proxy-agent");
 
 const proxy = require("../config.json").proxy;
 
-var getData = async url => {
+async function getData(url) {
   try {
     const response = await fetch(url, {
       timeout: 5 * 1000,
@@ -15,6 +15,15 @@ var getData = async url => {
   } catch (error) {
     throw error;
   }
-};
+}
 
-module.exports.getData = getData;
+async function getDataPipe(url) {
+  const response = await fetch(url, {
+    timeout: 5 * 1000,
+    size: 4000000,
+    agent: proxy ? new HttpsProxyAgent(proxy) : undefined
+  });
+  return response.body;
+}
+
+module.exports = { getData: getData, getDataPipe: getDataPipe };
