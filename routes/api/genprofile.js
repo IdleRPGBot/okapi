@@ -7,6 +7,7 @@ const download = require("./../../utils/download.js");
 registerFont("./assets/fonts/TravMedium.otf", { family: "TravMedium" });
 registerFont("./assets/fonts/CaviarDreams.ttf", { family: "CaviarDreams" });
 registerFont("./assets/fonts/OpenSansEmoji.ttf", { family: "OpenSansEmoji" });
+registerFont("./assets/fonts/K Gothic.ttf", { family: "KGothic" });
 
 function loadImageFromDisk(path) {
   const img = new Image();
@@ -14,7 +15,11 @@ function loadImageFromDisk(path) {
   return img;
 }
 
-const defaultProfile = loadImageFromDisk("./assets/images/Profile.png");
+// Dynamic Width (Build Regex)
+const wrap = (s, w) =>
+  s.replace(new RegExp(`(?![^\\n]{1,${w}}$)([^\\n]{1,${w}})\\s`, "g"), "$1\n");
+
+const defaultProfile = loadImageFromDisk("./assets/images/ProfileNew.png");
 const classes = {
   thief: loadImageFromDisk("./assets/images/casts/thief.png"),
   paragon: loadImageFromDisk("./assets/images/casts/paragon.png"),
@@ -25,24 +30,32 @@ const classes = {
   ritualist: loadImageFromDisk("./assets/images/casts/ritualist.png")
 };
 
+const races = {
+  human: loadImageFromDisk("./assets/images/casts/human.png"),
+  elf: loadImageFromDisk("./assets/images/casts/elf.png"),
+  jikill: loadImageFromDisk("./assets/images/casts/jikill.png"),
+  dwarf: loadImageFromDisk("./assets/images/casts/dwarf.png"),
+  orc: loadImageFromDisk("./assets/images/casts/orc.png")
+};
+
 const requiredParams = [
   "name",
   "image",
+  "race",
   "color",
-  "money",
-  "pvpWins",
-  "ecoRank",
-  "rank",
-  "level",
-  "swordDamage",
-  "shieldDamage",
+  "classes",
+  "damage",
+  "defense",
   "swordName",
   "shieldName",
-  "married",
+  "level",
+  "money",
+  "god",
   "guild",
-  "classes",
-  "icons",
-  "mission"
+  "marriage",
+  "pvpWins",
+  "adventure",
+  "icons"
 ];
 
 router.post("/", async (req, res) => {
@@ -53,7 +66,7 @@ router.post("/", async (req, res) => {
         .send({ err: `${element} is a required argument and is missing` });
     }
   });
-  const canvas = createCanvas(800, 600, "png");
+  const canvas = createCanvas(800, 650, "png");
   const ctx = canvas.getContext("2d");
   ctx.fillStyle = req.body.color;
   switch (req.body.image) {
@@ -66,88 +79,53 @@ router.post("/", async (req, res) => {
       ctx.drawImage(
         img,
         0,
-        0 /* , 800, 600 */
+        0 /* , 800, 650 */
       ); /* TODO: decide to resize all profiles or not */
       break;
   }
-  ctx.font = "34px TravMedium, CaviarDreams, OpenSansEmoji";
-  ctx.fillText(req.body.name, 73, 51);
-  ctx.fillText(req.body.money, 98, 352, 200);
-  ctx.fillText(req.body.pvpWins, 98, 424);
-  ctx.fillText(req.body.ecoRank, 265, 487, 110);
-  ctx.fillText(req.body.rank, 425, 487, 140);
-  ctx.font = "28px TravMedium, CaviarDreams, OpenSansEmoji";
-  ctx.fillText(req.body.swordDamage, 611, 158, 147);
-  ctx.fillText(req.body.shieldDamage, 611, 249, 147);
-  ctx.font = "24px TravMedium, CaviarDreams, OpenSansEmoji";
-  ctx.fillText(req.body.swordName, 81, 158, 390);
-  ctx.fillText(req.body.shieldName, 81, 244, 390);
-  ctx.fillText(req.body.married, 589, 371, 170);
-  ctx.fillText(req.body.guild, 589, 464, 170);
-  ctx.fillText(req.body.classes.join("/"), 127, 540, 650);
-  ctx.fillText(req.body.mission, 264, 590.8, 510);
-  ctx.fillStyle = "#000000";
-  ctx.fillText(req.body.level, 744, 56, 48);
+  ctx.font = "26px TravMedium, CaviarDreams, KGothic, OpenSansEmoji";
+  ctx.fillText(req.body.name, 221, 161, 133);
+  ctx.fillText(req.body.race, 228, 203, 133);
+  ctx.font = "23px TravMedium, CaviarDreams, KGothic, OpenSansEmoji";
+  ctx.fillText(req.body.classes.join("\n"), 228, 250, 133);
+  ctx.font = "22px TravMedium, CaviarDreams, KGothic, OpenSansEmoji";
+  ctx.fillText(req.body.damage, 111, 310, 101);
+  ctx.fillText(req.body.defense, 111, 352, 101);
+  ctx.fillText(req.body.level, 284, 310, 63);
+  ctx.fillText("soon™", 284, 352, 63);
+  if (req.body.swordName.length < 13) {
+    ctx.font = "45px TravMedium, CaviarDreams, KGothic, OpenSansEmoji";
+    ctx.fillText(wrap(req.body.swordName, 13), 165, 526, 194);
+  } else {
+    ctx.font = "19px TravMedium, CaviarDreams, KGothic, OpenSansEmoji";
+    ctx.fillText(wrap(req.body.swordName, 13), 165, 506, 194);
+  }
+  if (req.body.shieldName.length < 13) {
+    ctx.font = "45px TravMedium, CaviarDreams, KGothic, OpenSansEmoji";
+    ctx.fillText(wrap(req.body.shieldName, 13), 165, 607, 194);
+  } else {
+    ctx.font = "19px TravMedium, CaviarDreams, KGothic, OpenSansEmoji";
+    ctx.fillText(wrap(req.body.shieldName, 13), 165, 589, 194);
+  }
+  ctx.font = "52px TravMedium, CaviarDreams, KGothic, OpenSansEmoji";
+  ctx.fillText(req.body.money, 519, 89, 252);
+  ctx.fillText("soon™", 519, 161, 252);
+  ctx.fillText(req.body.god, 519, 244, 252);
+  ctx.fillText(req.body.guild, 519, 328, 252);
+  ctx.fillText(req.body.marriage, 519, 414, 252);
+  ctx.fillText(req.body.pvpWins, 519, 499, 252);
+  if (req.body.adventure.split("\n").length == 2) {
+    ctx.font = "34px TravMedium, CaviarDreams, KGothic, OpenSansEmoji";
+    ctx.fillText(req.body.adventure, 519, 562, 252);
+  } else {
+    ctx.fillText(req.body.adventure, 519, 583, 252);
+  }
+  ctx.drawImage(races[req.body.race.toLowerCase()], 205, 184, 22, 22);
   if (req.body.icons[0] !== "none") {
-    ctx.drawImage(classes[req.body.icons[0]], 660, 506, 50, 50);
+    ctx.drawImage(classes[req.body.icons[0]], 205, 232, 22, 22);
   }
   if (req.body.icons[1] !== "none") {
-    ctx.drawImage(classes[req.body.icons[1]], 723, 506, 50, 50);
-  }
-  const buffer = canvas.toBuffer("image/png");
-  res
-    .header("Content-Type", "image/png")
-    .status(200)
-    .send(buffer);
-});
-router.post("/beta", async (req, res) => {
-  requiredParams.forEach(element => {
-    if (!(element in req.body)) {
-      res
-        .status(400)
-        .send({ err: `${element} is a required argument and is missing` });
-    }
-  });
-  const canvas = createCanvas(800, 600, "png");
-  const ctx = canvas.getContext("2d");
-  ctx.fillStyle = req.body.color;
-  switch (req.body.image) {
-    case "0":
-      ctx.drawImage(defaultProfile, 0, 0);
-      break;
-    default:
-      const img = new Image();
-      img.src = await download.getData(req.body.image);
-      ctx.drawImage(
-        img,
-        0,
-        0 /* , 800, 600 */
-      ); /* TODO: decide to resize all profiles or not */
-      break;
-  }
-  ctx.font = "34px TravMedium, CaviarDreams, OpenSansEmoji";
-  ctx.fillText(req.body.name, 73, 51);
-  ctx.fillText(req.body.money, 98, 352, 200);
-  ctx.fillText(req.body.pvpWins, 98, 424);
-  ctx.fillText(req.body.ecoRank, 265, 487, 110);
-  ctx.fillText(req.body.rank, 425, 487, 140);
-  ctx.font = "28px TravMedium, CaviarDreams, OpenSansEmoji";
-  ctx.fillText(req.body.swordDamage, 611, 158, 147);
-  ctx.fillText(req.body.shieldDamage, 611, 249, 147);
-  ctx.font = "24px TravMedium, CaviarDreams, OpenSansEmoji";
-  ctx.fillText(req.body.swordName, 81, 158, 390);
-  ctx.fillText(req.body.shieldName, 81, 244, 390);
-  ctx.fillText(req.body.married, 589, 371, 170);
-  ctx.fillText(req.body.guild, 589, 464, 170);
-  ctx.fillText(req.body.classes.join("/"), 127, 540, 650);
-  ctx.fillText(req.body.mission, 264, 590.8, 510);
-  ctx.fillStyle = "#000000";
-  ctx.fillText(req.body.level, 744, 56, 48);
-  if (req.body.icons[0] !== "none") {
-    ctx.drawImage(classes[req.body.icons[0]], 660, 506, 50, 50);
-  }
-  if (req.body.icons[1] !== "none") {
-    ctx.drawImage(classes[req.body.icons[1]], 723, 506, 50, 50);
+    ctx.drawImage(classes[req.body.icons[1]], 205, 254, 22, 22);
   }
   const buffer = canvas.toBuffer("image/png");
   res
