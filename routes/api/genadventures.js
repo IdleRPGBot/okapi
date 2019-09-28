@@ -13,7 +13,7 @@ function loadImageFromDisk(path) {
 }
 
 var images = []
-for (var i = 1; i < 22; i++) {
+for (var i = 1; i < 21; i++) {
   images.push(loadImageFromDisk(`./assets/images/adventures/${i}.png`))
 }
 
