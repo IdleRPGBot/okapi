@@ -1,9 +1,14 @@
-FROM node:10.16-buster
+FROM frolvlad/alpine-glibc
 
 WORKDIR /okapi/
 COPY package*.json /okapi/
 
-RUN npm install
+RUN apk add --no-cache nodejs-current npm && \
+    apk add --no-cache python make g++ cairo-dev pango-dev libjpeg-turbo-dev giflib-dev && \
+    npm install && \
+    apk del g++ python make && \
+    apk del npm
 
-COPY . /okapi/
+COPY . /okapi
+
 CMD node .
