@@ -39,8 +39,8 @@ router.post("/", async (req, res) => {
       ctx.fillText(`${percents[0]}% to`, 314, 185, 100);
       ctx.fillText(`${percents[1]}%`, 314, 205, 100);
     } else {
-      ctx.fillText(`${percents[0]}% to`, 314, 168, 100);
-      ctx.fillText(`${percents[1]}%`, 314, 188, 100);
+      ctx.fillText(`${percents[0]}% to`, 314, 163, 100);
+      ctx.fillText(`${percents[1]}%`, 314, 183, 100);
     }
     const buffer = canvas.toDataURL();
     out.push(buffer);
