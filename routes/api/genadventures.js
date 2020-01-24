@@ -25,10 +25,11 @@ router.post("/", async (req, res) => {
   }
   var out = [];
   images.forEach(function(image, index) {
+    var canvas;
     if (index > 9 && indey < 20) {
-        const canvas = createCanvas(425, 220, "png");
+        canvas = createCanvas(425, 220, "png");
     } else {
-        const canvas = createCanvas(410, 203, "png");
+        canvas = createCanvas(410, 203, "png");
     }
     const ctx = canvas.getContext("2d");
     const percents = req.body.percentages[index];
