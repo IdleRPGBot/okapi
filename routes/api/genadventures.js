@@ -25,13 +25,22 @@ router.post("/", async (req, res) => {
   }
   var out = [];
   images.forEach(function(image, index) {
-    const canvas = createCanvas(425, 220, "png");
+    if (index > 9 && indey < 20) {
+        const canvas = createCanvas(425, 220, "png");
+    } else {
+        const canvas = createCanvas(410, 203, "png");
+    }
     const ctx = canvas.getContext("2d");
     const percents = req.body.percentages[index];
     ctx.drawImage(image, 0, 0);
     ctx.font = "20px TravMedium, CaviarDreams, OpenSansEmoji";
-    ctx.fillText(`${percents[0]}% to`, 314, 185, 100);
-    ctx.fillText(`${percents[1]}%`, 314, 205, 100);
+    if (index > 9 && index < 20) {
+      ctx.fillText(`${percents[0]}% to`, 314, 185, 100);
+      ctx.fillText(`${percents[1]}%`, 314, 205, 100);
+    } else {
+      ctx.fillText(`${percents[0]}% to`, 314, 185, 100);
+      ctx.fillText(`${percents[1]}%`, 314, 205, 100);
+    }
     const buffer = canvas.toDataURL();
     out.push(buffer);
   });
