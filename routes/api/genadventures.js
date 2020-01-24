@@ -13,7 +13,7 @@ function loadImageFromDisk(path) {
 }
 
 var images = []
-for (var i = 1; i < 21; i++) {
+for (var i = 1; i < 31; i++) {
   images.push(loadImageFromDisk(`./assets/images/adventures/${i}.png`))
 }
 
@@ -39,8 +39,8 @@ router.post("/", async (req, res) => {
       ctx.fillText(`${percents[0]}% to`, 314, 185, 100);
       ctx.fillText(`${percents[1]}%`, 314, 205, 100);
     } else {
-      ctx.fillText(`${percents[0]}% to`, 314, 185, 100);
-      ctx.fillText(`${percents[1]}%`, 314, 205, 100);
+      ctx.fillText(`${percents[0]}% to`, 314, 168, 100);
+      ctx.fillText(`${percents[1]}%`, 314, 188, 100);
     }
     const buffer = canvas.toDataURL();
     out.push(buffer);
