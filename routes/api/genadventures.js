@@ -26,7 +26,7 @@ router.post("/", async (req, res) => {
   var out = [];
   images.forEach(function(image, index) {
     var canvas;
-    if (index > 9 && indey < 20) {
+    if (index > 9 && index < 20) {
         canvas = createCanvas(425, 220, "png");
     } else {
         canvas = createCanvas(410, 203, "png");
