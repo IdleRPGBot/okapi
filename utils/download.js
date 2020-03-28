@@ -1,15 +1,23 @@
-const fetch = require("node-fetch");
+const nodeFetch = require("node-fetch");
 const HttpsProxyAgent = require("https-proxy-agent");
 
 const proxy = require("../config.json").proxy;
+const proxy_auth = require("../config.json").proxy_auth;
+
+
+async function fetch(url) {
+  var headers = {
+    "Proxy-Authorization-Key": proxy_auth,
+    "Requested-URI": url,
+    "Accept": "application/json"
+  }
+  return await nodeFetch(proxy, { timeout: 5* 1000, size: 4000000, headers: headers });
+}
+
 
 async function getData(url) {
   try {
-    const response = await fetch(url, {
-      timeout: 5 * 1000,
-      size: 4000000,
-      agent: proxy ? new HttpsProxyAgent(proxy) : undefined
-    });
+    const response = await fetch(url);
     if (!response.ok) throw Error(`The server returned ${response.status}`);
     return await response.buffer();
   } catch (error) {
@@ -18,11 +26,7 @@ async function getData(url) {
 }
 
 async function getDataPipe(url) {
-  const response = await fetch(url, {
-    timeout: 5 * 1000,
-    size: 4000000,
-    agent: proxy ? new HttpsProxyAgent(proxy) : undefined
-  });
+  const response = await fetch(url);
   return response.body;
 }
 
