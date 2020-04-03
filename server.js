@@ -22,6 +22,13 @@ app.use(
 app.use(bodyParser.json());
 app.use(require("method-override")());
 
+/* GET / for metrics */
+app.get("/", function(req, res) {
+  res.send("1");
+});
+
+/* Routes */
+
 app.use(require("./routes"));
 
 /* error handlers */
