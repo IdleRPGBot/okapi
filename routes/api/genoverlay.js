@@ -8,6 +8,17 @@ var data = fs.readFileSync("./assets/images/ProfileOverlayNew.png");
 const foreground = new Image();
 foreground.src = data;
 
+function loadImage(data) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error("Failed to load image"));
+
+    img.src = data;
+  });
+}
+
 router.post("/", async (req, res) => {
   if (!req.body.url) {
     res.status(400).send({
@@ -18,20 +29,16 @@ router.post("/", async (req, res) => {
   }
   const canvas = createCanvas(800, 650, "png");
   const ctx = canvas.getContext("2d");
-  const img = new Image();
-  try {
-    img.src = await download.getData(req.body.url);
+  var data = await download.getData(req.body.url);
+  loadImage(data).then(function(img) {
     ctx.drawImage(img, 0, 0, 800, 650);
-  } catch (error) {
-    res.status(400).send({ err: error.toString() });
-    return;
-  }
-  ctx.drawImage(foreground, 0, 0);
-  const buffer = canvas.toBuffer("image/png");
-  res
-    .header("Content-Type", "image/png")
-    .status(200)
-    .send(buffer);
+    ctx.drawImage(foreground, 0, 0);
+    const buffer = canvas.toBuffer("image/png");
+    res
+      .header("Content-Type", "image/png")
+      .status(200)
+      .send(buffer);
+  });
 });
 
 module.exports = router;
