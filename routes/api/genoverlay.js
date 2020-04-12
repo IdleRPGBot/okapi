@@ -33,11 +33,10 @@ router.post("/", async (req, res) => {
   loadImage(data).then(function(img) {
     ctx.drawImage(img, 0, 0, 800, 650);
     ctx.drawImage(foreground, 0, 0);
-    const buffer = canvas.toBuffer("image/png");
+    const buffer = canvas.toDataURL("image/png");
     res
-      .header("Content-Type", "image/png")
       .status(200)
-      .send(buffer);
+      .send(buffer.split(",")[1]);
   });
 });
 
