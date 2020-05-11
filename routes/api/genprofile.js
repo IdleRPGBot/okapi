@@ -125,19 +125,19 @@ router.post("/", async (req, res) => {
     ctx.fillText(req.body.defense, 111, 352, 101);
     ctx.fillText(req.body.level, 284, 310, 63);
     ctx.fillText("soon™", 284, 352, 63);
-    if (req.body.swordName.length < 20) {
+    if (req.body.swordName.length < 18) {
       ctx.font = "45px TravMedium, CaviarDreams, KGothic, OpenSansEmoji";
       ctx.fillText(req.body.swordName, 165, 526, 194);
     } else {
       ctx.font = "19px TravMedium, CaviarDreams, KGothic, OpenSansEmoji";
-      ctx.fillText(wrap(req.body.swordName, 13), 165, 506, 194);
+      ctx.fillText(wrap(req.body.swordName, 26), 165, 506, 194);
     }
-    if (req.body.shieldName.length < 20) {
+    if (req.body.shieldName.length < 18) {
       ctx.font = "45px TravMedium, CaviarDreams, KGothic, OpenSansEmoji";
       ctx.fillText(req.body.shieldName, 165, 607, 194);
     } else {
       ctx.font = "19px TravMedium, CaviarDreams, KGothic, OpenSansEmoji";
-      ctx.fillText(wrap(req.body.shieldName, 20), 165, 589, 194);
+      ctx.fillText(wrap(req.body.shieldName, 26), 165, 589, 194);
     }
     ctx.font = "52px TravMedium, CaviarDreams, KGothic, OpenSansEmoji";
     ctx.fillText(req.body.money, 519, 89, 252);
