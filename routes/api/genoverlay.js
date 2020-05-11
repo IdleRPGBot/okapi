@@ -23,20 +23,18 @@ router.post("/", async (req, res) => {
   if (!req.body.url) {
     res.status(400).send({
       err:
-        "You must provide a source url + make sure to set the Content-Type header to application/json"
+        "You must provide a source url + make sure to set the Content-Type header to application/json",
     });
     return;
   }
   const canvas = createCanvas(800, 650, "png");
   const ctx = canvas.getContext("2d");
   var data = await download.getData(req.body.url);
-  loadImage(data).then(function(img) {
+  loadImage(data).then(function (img) {
     ctx.drawImage(img, 0, 0, 800, 650);
     ctx.drawImage(foreground, 0, 0);
     const buffer = canvas.toDataURL("image/png");
-    res
-      .status(200)
-      .send(buffer.split(",")[1]);
+    res.status(200).send(buffer.split(",")[1]);
   });
 });
 

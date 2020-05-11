@@ -7,10 +7,7 @@ router.get("/", (req, res) => {
   ctx.font = "22px Sans";
   ctx.fillText("Hello World", 44, 80);
   const buffer = canvas.toBuffer("image/png");
-  res
-    .header("Content-Type", "image/png")
-    .status(200)
-    .send(buffer);
+  res.header("Content-Type", "image/png").status(200).send(buffer);
 });
 
 module.exports = router;

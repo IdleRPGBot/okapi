@@ -12,9 +12,9 @@ function loadImageFromDisk(path) {
   return img;
 }
 
-var images = []
+var images = [];
 for (var i = 1; i < 31; i++) {
-  images.push(loadImageFromDisk(`./assets/images/adventures/${i}.png`))
+  images.push(loadImageFromDisk(`./assets/images/adventures/${i}.png`));
 }
 
 router.post("/", async (req, res) => {
@@ -24,12 +24,12 @@ router.post("/", async (req, res) => {
       .send({ err: `percentages is a required argument and is missing` });
   }
   var out = [];
-  images.forEach(function(image, index) {
+  images.forEach(function (image, index) {
     var canvas;
     if (index > 9 && index < 20) {
-        canvas = createCanvas(425, 220, "png");
+      canvas = createCanvas(425, 220, "png");
     } else {
-        canvas = createCanvas(410, 203, "png");
+      canvas = createCanvas(410, 203, "png");
     }
     const ctx = canvas.getContext("2d");
     const percents = req.body.percentages[index];

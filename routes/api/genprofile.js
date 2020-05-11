@@ -15,9 +15,6 @@ function loadImageFromDisk(path) {
   return img;
 }
 
-// Dynamic Width (Build Regex)
-const wrap = (s, w) =>
-  s.replace(new RegExp(`(?![^\\n]{1,${w}}$)([^\\n]{1,${w}})\\s`, "g"), "$1\n");
 
 const defaultProfile = loadImageFromDisk("./assets/images/ProfileNew.png");
 const classes = {
@@ -70,6 +67,35 @@ function loadImage(data) {
   });
 }
 
+function wrap(str, n) {
+  var slices = [];
+
+  // while string is not empty
+  // take n characters
+  // check witch one was the last space or if the end of the line is reached
+  // then => push them in slices
+  // then => remove them from the string
+
+  while (str != "") {
+    var lastSpace = 0;
+
+    for (var i = 0; i < str.length && i < n; i++) {
+      if (str[i] == " ") {
+        lastSpace = i;
+      }
+      if (i == str.length - 1) {
+        lastSpace = str.length;
+      }
+    }
+
+    // insert into array
+    slices.push(str.slice(0, lastSpace).trim());
+    str = str.slice(lastSpace);
+  }
+
+  return slices.join("\n");
+}
+
 router.post("/", async (req, res) => {
   requiredParams.forEach((element) => {
     if (!(element in req.body)) {
@@ -108,10 +134,10 @@ router.post("/", async (req, res) => {
     }
     if (req.body.shieldName.length < 13) {
       ctx.font = "45px TravMedium, CaviarDreams, KGothic, OpenSansEmoji";
-      ctx.fillText(wrap(req.body.shieldName, 13), 165, 607, 194);
+      ctx.fillText(wrap(req.body.shieldName, 20), 165, 607, 194);
     } else {
       ctx.font = "19px TravMedium, CaviarDreams, KGothic, OpenSansEmoji";
-      ctx.fillText(wrap(req.body.shieldName, 13), 165, 589, 194);
+      ctx.fillText(wrap(req.body.shieldName, 20), 165, 589, 194);
     }
     ctx.font = "52px TravMedium, CaviarDreams, KGothic, OpenSansEmoji";
     ctx.fillText(req.body.money, 519, 89, 252);

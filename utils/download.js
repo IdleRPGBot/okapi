@@ -8,11 +8,14 @@ async function fetch(url) {
   var headers = {
     "Proxy-Authorization-Key": proxy_auth,
     "Requested-URI": url,
-    "Accept": "application/json"
-  }
-  return await nodeFetch(proxy, { timeout: 5 * 1000, size: 4000000, headers: headers });
+    Accept: "application/json",
+  };
+  return await nodeFetch(proxy, {
+    timeout: 5 * 1000,
+    size: 4000000,
+    headers: headers,
+  });
 }
-
 
 async function getData(url) {
   try {

@@ -21,9 +21,7 @@ router.post("/invert", async (req, res) => {
     res.status(400).send({ err: `image is a required argument and missing` });
   }
   res.type("image/png");
-  var transformer = sharp()
-    .negate()
-    .png();
+  var transformer = sharp().negate().png();
   (await download.getDataPipe(req.body.image)).pipe(transformer).pipe(res);
 });
 
@@ -38,7 +36,7 @@ router.post("/edges", async (req, res) => {
     .convolve({
       width: 3,
       height: 3,
-      kernel: [-1, 0, 1, -2, 0, 2, -1, 0, 1]
+      kernel: [-1, 0, 1, -2, 0, 2, -1, 0, 1],
     })
     .png();
   (await download.getDataPipe(req.body.image)).pipe(transformer).pipe(res);
@@ -89,7 +87,7 @@ router.post("/oil", async (req, res) => {
       rgbLUT[y][x] = {
         r: r,
         g: g,
-        b: b
+        b: b,
       };
     }
   }
@@ -109,7 +107,7 @@ router.post("/oil", async (req, res) => {
                 val: 1,
                 r: rgbLUT[y + yy][x + xx].r,
                 g: rgbLUT[y + yy][x + xx].g,
-                b: rgbLUT[y + yy][x + xx].b
+                b: rgbLUT[y + yy][x + xx].b,
               };
             } else {
               pixelIntensityCount[intensityVal].val++;
@@ -121,7 +119,7 @@ router.post("/oil", async (req, res) => {
         }
       }
 
-      pixelIntensityCount.sort(function(a, b) {
+      pixelIntensityCount.sort(function (a, b) {
         return b.val - a.val;
       });
 
@@ -137,10 +135,7 @@ router.post("/oil", async (req, res) => {
 
   ctx.putImageData(destImageData, 0, 0);
   const buffer = canvas.toBuffer("image/png");
-  res
-    .header("Content-Type", "image/png")
-    .status(200)
-    .send(buffer);
+  res.header("Content-Type", "image/png").status(200).send(buffer);
 });
 
 module.exports = router;
