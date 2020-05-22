@@ -19,10 +19,8 @@ router.post("/", async (req, res) => {
   loadImage(`data:image/svg+xml;charset=utf-8,${req.body.xml}`).then(function (
     img
   ) {
-    var canvas = createCanvas(400, 400);
+    var canvas = createCanvas(390, 390);
     var ctx = canvas.getContext("2d");
-    ctx.fillStyle = "white";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(img, 0, 0);
     var buffer = canvas.toBuffer("image/png");
     res.header("Content-Type", "image/png").status(200).send(buffer);
